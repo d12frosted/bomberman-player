@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+name="bomberman-bot"
+
+pkill -f "$name"
+
+function run() {
+  stack exec "$name" -- --user "$1" --code "$2" 2>/dev/null &
+}
+
+stack build
+run "bomber@man.com" "1185484164647471344"
+run "dummy@man.com" "14487325011426225222"
+run "coin@man.com" "17049456021629809948"
+run "super@man.com" "1586155304773790825"
+run "yermilov@man.com" "17148910741505086389"
+run "mc-krukovsky@man.com" "1948884237878778868"
+run "kamikadze@man.com" "3010235001325567080"

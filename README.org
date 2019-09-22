@@ -1,0 +1,92 @@
+* Bomberman Client
+
+Client for a Bomberman game event. Your goal is to implement a =player= function
+in the =Bomberman.Player= module.
+
+#+begin_src haskell
+  player :: ( MonadIO m
+            , MonadReader r m
+            , HasLogFunc r
+            )
+         => Board Cell
+         -> m Action
+  player board = pure $ Action Stay BombBeforeMove
+#+end_src
+
+** Building and running
+
+In order to build and run this client you need to install [[https://docs.haskellstack.org/en/stable/README/][stack]]. Once you have
+it, just run the following commands in the root of the project.
+
+#+begin_src bash
+  $ stack build
+  $ stack exec bomberman-bot -- --user your@email.com --code CODE
+
+  # or simply
+
+  $ stack build && stack exec bomberman-bot -- --user your@email.com --code CODE
+#+end_src
+
+If you wish to change the default server, there are ~--address~ and ~--port~
+options that you can use.
+
+Use ~--help~ option to get more information about the command line options.
+
+#+begin_example
+  bomberman-bot - enjoy the bot playing bomberman
+
+  Usage: bomberman-bot [--version] [--address VALUE] [--port NUMBER] --user VALUE
+                       --code VALUE
+    bomberman bot
+
+  Available options:
+    -h,--help                Show this help text
+    --version                Show version
+    --address VALUE          Override default address
+    --port NUMBER            Override default port
+    --user VALUE             Set the user
+    --code VALUE             Set the code
+#+end_example
+
+** Docker
+
+One can also build and run the client using =docker=.
+
+#+begin_src bash
+  $ docker build .
+  $ docker run -e user=your@email.com -e code=CODE
+#+end_src
+
+** Writing the bot
+
+#+begin_src haskell
+  player :: ( MonadIO m
+            , MonadReader r m
+            , HasLogFunc r
+            )
+         => Board Cell
+         -> m Action
+#+end_src
+
+The =player= function takes the current =Board= and returns an =Action= -
+combination of =Move= command (stay or move to one of the =Direction=) and
+=Bomb= command (do nothing, place a bomb before the move or place a bomb after
+the move).
+
+The =Board= datatype is more interesting. Under the hood, it's just a
+two-dimensional variant of the pointed lost (=Universe a=), which represents and
+element (focus), a list of elements to the 'left' of the focus and a list of
+elements to the 'right' of the focus. Think of an endless tape with a focus. You
+can shift it to either of the sides (left/right). =Universe a= is polymorphic.
+Now if you put another =Universe= as element, you get two-dimensional
+=Universe=. =Board= in a nutshell is just an =Universe (Universe a)=.
+
+The great thing about =Universe= (and =Board= in particular) is that it's a
+=Functor= and =Comonad=. This gives an ability to nicely evaluate the game
+board. Just take a look at =mark= function. If you have questions, just ask
+@d12frosted.
+
+=Monad= here is present for two reasons:
+
+1. allow usage of =random= (requires =MonadIO=),
+2. allow usage of logging (=MonadReader= with =HasLogFunc=).

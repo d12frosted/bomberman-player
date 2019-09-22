@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+IMAGE=d12frosted/bomberman-bot
+
+echo "Pull latest version"
+docker pull $IMAGE
+
+function start() {
+  user="$1"
+  code="$2"
+  name="bomberman-$code"
+  echo "Check if running instance exists"
+  instance=$(docker ps -aqf "name=$name")
+  if [[ -n $instance ]]; then
+    echo "Found running instance: $instance"
+    docker stop "$instance"
+    docker rm "$instance"
+  fi
+
+  echo "Run new instance"
+  docker run -d \
+    -v /root/.local/share/vendemmia/config.yaml:/root/.local/share/vendemmia/config.yaml \
+    --interactive \
+    --tty \
+    --name "$name" \
+    -e user="$user" \
+    -e code="$code" \
+    $IMAGE
+}
+
+start "bomber@man.com" "1185484164647471344"
+start "dummy@man.com" "14487325011426225222"
+start "coin@man.com" "17049456021629809948"
+start "super@man.com" "1586155304773790825"
+start "yermilov@man.com" "17148910741505086389"
+start "mc-krukovsky@man.com" "1948884237878778868"
+start "kamikadze@man.com" "3010235001325567080"
