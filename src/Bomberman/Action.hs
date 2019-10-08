@@ -11,12 +11,11 @@ import           Data.Board
 data Action
   = Action
   { actionMove :: Move
-  , actionBomb :: Bomb
+  , actionBomb :: Maybe Bomb
   } deriving (Show, Eq)
 
 data Bomb
-  = NoBomb
-  | BombBeforeMove
+  = BombBeforeMove
   | BombAfterMove
   deriving (Show, Eq)
 
@@ -28,21 +27,21 @@ data Move
 --------------------------------------------------------------------------------
 
 stay :: Action
-stay = Action Stay NoBomb
+stay = Action Stay Nothing
 
 stayAndBomb :: Action
-stayAndBomb = Action Stay BombAfterMove
+stayAndBomb = Action Stay $ Just BombAfterMove
 
 bombAndStay :: Action
-bombAndStay = Action Stay BombBeforeMove
+bombAndStay = Action Stay $ Just BombBeforeMove
 
 move :: Direction -> Action
-move = flip Action NoBomb . Move
+move = flip Action Nothing . Move
 
 moveAndBomb :: Direction -> Action
-moveAndBomb = flip Action BombAfterMove . Move
+moveAndBomb = flip Action (Just BombAfterMove) . Move
 
 bombAndMove :: Direction -> Action
-bombAndMove = flip Action BombBeforeMove . Move
+bombAndMove = flip Action (Just BombBeforeMove) . Move
 
 --------------------------------------------------------------------------------

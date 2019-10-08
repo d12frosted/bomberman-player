@@ -134,9 +134,9 @@ optsParser = info
 
 actionToCommand :: Action -> Text
 actionToCommand (Action m b) = T.intercalate "," $ case b of
-  NoBomb         -> [moveCommand m]
-  BombBeforeMove -> ["ACT", moveCommand m]
-  BombAfterMove  -> [moveCommand m, "ACT"]
+  Nothing             -> [moveCommand m]
+  Just BombBeforeMove -> ["ACT", moveCommand m]
+  Just BombAfterMove  -> [moveCommand m, "ACT"]
 
 moveCommand :: Move -> Text
 moveCommand Stay         = "STOP"

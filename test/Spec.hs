@@ -81,7 +81,7 @@ main = defaultMain
                            , "..▫.▫...."
                            , "▪.▪▫▪.▪.▪"
                            ]
-                 ) (Just South) @?= NoBomb
+                 ) (Just South) @?= Nothing
 
     , testCase "do not block yourself with a bomb - 0 - 2" $
       shouldBomb ( mkBoard [ "▪.▪.▪.▪.▪"
@@ -92,7 +92,7 @@ main = defaultMain
                            , "..▫.▫...."
                            , "▪.▪▫▪.▪.▪"
                            ]
-                 ) (Just East) @?= NoBomb
+                 ) (Just East) @?= Nothing
 
     , testCase "do not block yourself with a bomb - 1" $
       shouldBomb ( mkBoard [ "▪▪▪"
@@ -101,7 +101,7 @@ main = defaultMain
                            , "▪.▪"
                            , "▪▪▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
 
     , testCase "do not block yourself with a bomb - 2" $
       shouldBomb ( mkBoard [ "▪▪▪"
@@ -112,7 +112,7 @@ main = defaultMain
                            , "▪.▪"
                            , "▪▪▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
 
     , testCase "do not block yourself with a bomb - 3" $
       shouldBomb ( mkBoard [ "▪▪▪"
@@ -125,7 +125,7 @@ main = defaultMain
                            , "▪.▪"
                            , "▪▪▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
 
     , testCase "do not block yourself with a bomb - 4" $
       shouldBomb ( mkBoard [ "▪▪▪"
@@ -140,7 +140,7 @@ main = defaultMain
                            , "▪.▪"
                            , "▪▪▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
 
     , testCase "find path to safety" $
       shortest isSafe isEmpty ( mkBoard [ "▪▪▪▪"
@@ -291,7 +291,7 @@ main = defaultMain
                            , "▫@▫"
                            , "▪▫▪"
                            ]
-                 ) Nothing @?= BombBeforeMove
+                 ) Nothing @?= Just BombBeforeMove
 
     , testCase "bomb when there are brick walls around and available area is small" $
       shouldBomb ( mkBoard [ "▪▫▪"
@@ -299,7 +299,7 @@ main = defaultMain
                            , "▪.▪"
                            , "▪▪▪"
                            ]
-                 ) (Just South) @?= BombBeforeMove
+                 ) (Just South) @?= Just BombBeforeMove
 
     , testCase "but do not bomb when there is nothing to explode even if the available are is small" $
       shouldBomb ( mkBoard [ "▪▪▪"
@@ -307,7 +307,7 @@ main = defaultMain
                            , "▪@▪"
                            , "▪▪▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
     ]
 
   , testGroup "game rules"
@@ -330,7 +330,7 @@ main = defaultMain
                            , "▪▪.▪"
                            , "▪▪.▪"
                            ]
-                 ) (Just East) @?= BombBeforeMove
+                 ) (Just East) @?= Just BombBeforeMove
 
     , testCase "treat monsters as brick wall - destroy it" $
       shouldBomb ( mkBoard [ "▪▪▪▪"
@@ -338,14 +338,14 @@ main = defaultMain
                            , "▪@.▪"
                            , "▪▪.▪"
                            ]
-                 ) (Just East) @?= BombBeforeMove
+                 ) (Just East) @?= Just BombBeforeMove
     , testCase "treat other bombermans as brick wall - destroy it" $
       shouldBomb ( mkBoard [ "▪▪▪▪"
                            , "▪b▪▪"
                            , "▪@.▪"
                            , "▪▪.▪"
                            ]
-                 ) (Just East) @?= BombBeforeMove
+                 ) (Just East) @?= Just BombBeforeMove
 
 
     , testCase "do not bomb when there are no targets around" $
@@ -359,7 +359,7 @@ main = defaultMain
                            , "....▫.m...."
                            , "▪.▪.▪.▪.▪.▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
 
     , testCase "really, don't bomb air" $
       shouldBomb ( mkBoard [ "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
@@ -396,7 +396,7 @@ main = defaultMain
                            , "▪...▫.....▫..............m..▫...▪"
                            , "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
                            ]
-                 ) (Just North) @?= NoBomb
+                 ) (Just North) @?= Nothing
     ]
 
   , testGroup "path finding"

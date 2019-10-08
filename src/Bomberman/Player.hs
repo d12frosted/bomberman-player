@@ -73,13 +73,13 @@ willSurvive dir = not . willDie dir
 
 --------------------------------------------------------------------------------
 
-shouldBomb :: Board MarkedCell -> Maybe Direction -> Bomb
-shouldBomb _ Nothing        = BombBeforeMove
+shouldBomb :: Board MarkedCell -> Maybe Direction -> Maybe Bomb
+shouldBomb _ Nothing        = Just BombBeforeMove
 shouldBomb board (Just dir) =
   case shortest (not . getSelfVisible) isEmpty board of
     Nothing -> bombWhen gain
     _       ->  case shortest isSafe isEmpty board' of
-      Nothing -> NoBomb
+      Nothing -> Nothing
       Just  p -> bombWhen $ length p < 4 && gain
   where board'
           = extend mark
@@ -89,7 +89,7 @@ shouldBomb board (Just dir) =
           . fmap getCell
           $ board
         gain = hasTargets . extract $ board
-        bombWhen v = if v then BombBeforeMove else NoBomb
+        bombWhen v = if v then Just BombBeforeMove else Nothing
 
 --------------------------------------------------------------------------------
 
