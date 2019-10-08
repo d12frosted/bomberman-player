@@ -5,7 +5,7 @@ name="bomberman-bot"
 pkill -f "$name"
 
 function run() {
-  stack exec "$name" -- --user "$1" --code "$2" 2>/dev/null &
+  stack exec "$name" -- --address "$1" --user "$2" --code "$3" 2>/dev/null &
 }
 
 stack build

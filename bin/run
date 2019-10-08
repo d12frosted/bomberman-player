@@ -6,8 +6,9 @@ echo "Pull latest version"
 docker pull $IMAGE
 
 function start() {
-  user="$1"
-  code="$2"
+  address="$1"
+  user="$2"
+  code="$3"
   name="bomberman-$code"
   echo "Check if running instance exists"
   instance=$(docker ps -aqf "name=$name")
@@ -25,13 +26,16 @@ function start() {
     --name "$name" \
     -e user="$user" \
     -e code="$code" \
+    -e address="$address" \
     $IMAGE
 }
 
-start "bomber@man.com" "1185484164647471344"
-start "dummy@man.com" "14487325011426225222"
-start "coin@man.com" "17049456021629809948"
-start "super@man.com" "1586155304773790825"
-start "yermilov@man.com" "17148910741505086389"
-start "mc-krukovsky@man.com" "1948884237878778868"
-start "kamikadze@man.com" "3010235001325567080"
+# start "34.67.67.45" "bomber@man.com" "1185484164647471344"
+# start "34.67.67.45" "dummy@man.com" "14487325011426225222"
+# start "34.67.67.45" "coin@man.com" "17049456021629809948"
+# start "34.67.67.45" "super@man.com" "1586155304773790825"
+# start "34.67.67.45" "yermilov@man.com" "17148910741505086389"
+# start "34.67.67.45" "mc-krukovsky@man.com" "1948884237878778868"
+# start "34.67.67.45" "kamikadze@man.com" "3010235001325567080"
+# start "34.67.67.45" "vtmp2stpda2mhpqc7v5u" "5408676422762762852"
+start "18.217.205.144" "vtmp2stpda2mhpqc7v5u" "5408676422762762852"
